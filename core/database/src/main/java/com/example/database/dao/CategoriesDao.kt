@@ -13,7 +13,7 @@ interface CategoriesDao {
     suspend fun insertAllCategories(categoryRoomModel: CategoriesRoomModel)
 
     @Query(value = "SELECT * FROM categories")
-    suspend fun getAllCategories() : CategoriesRoomModel
+    suspend fun getAllCategories() : CategoriesRoomModel?
 
     @Query(value = "DELETE FROM categories")
     suspend fun clearAllCategories()

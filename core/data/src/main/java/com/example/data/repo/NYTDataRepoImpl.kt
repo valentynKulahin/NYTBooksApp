@@ -12,12 +12,14 @@ import com.example.data.util.NetworkMonitor
 import com.example.data.util.NetworkStatus
 import com.example.database.dao.CategoriesDao
 import com.example.database.dao.FullOverviewDao
+import com.example.database.model.category.CategoriesRoomModel
+import com.example.database.model.full_overview.FullOverviewRoomModel
+import com.example.database.model.full_overview.ListsRoomModel
 import com.example.datastore.repo.DataStoreRepo
 import com.example.network.model.category.CategoriesNetworkModel
 import com.example.network.model.full_overview.FullOverviewNetworkModel
 import com.example.network.repo.NYTNetworkRepo
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -62,8 +64,12 @@ class NYTDataRepoImpl @Inject constructor(
             }
 
             else -> {
-                Log.d("TAG", "getFullOverviewDataRepo: DISCONNECTED")
-                return fullOverviewDao.getAllOverview().mapToData()
+                val result = fullOverviewDao.getAllOverview()
+                return if (result == null) {
+                    FullOverviewRoomModel().mapToData()
+                } else {
+                    result.mapToData()
+                }
             }
         }
     }
@@ -100,16 +106,24 @@ class NYTDataRepoImpl @Inject constructor(
             }
 
             else -> {
-                Log.d("TAG", "getFullOverviewDataRepo: DISCONNECTED")
-                return categoriesDao.getAllCategories().mapToData()
+                val result = categoriesDao.getAllCategories()
+                return if (result == null) {
+                    CategoriesRoomModel().mapToData()
+                } else {
+                    return result.mapToData()
+                }
             }
         }
     }
 
     override suspend fun getBooksFromCategory(category: String): ListsDataModel {
-        val fullOverview = fullOverviewDao.getAllOverview().mapToData()
-        return fullOverview.resultsDataModel.lists.find { item -> item.display_name == category }
-            ?: ListsDataModel()
+        val result = fullOverviewDao.getAllOverview()
+        return if (result == null) {
+            ListsRoomModel().mapToData()
+        } else {
+            result.resultsRoomModel.lists.find { item -> item.display_name == category }!!
+                .mapToData()
+        }
     }
 
 }

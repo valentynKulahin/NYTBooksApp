@@ -13,7 +13,7 @@ interface FullOverviewDao {
     suspend fun insertFullOverview(fullOverviewRoomModel: FullOverviewRoomModel)
 
     @Query(value = "SELECT * FROM overview")
-    suspend fun getAllOverview(): FullOverviewRoomModel
+    suspend fun getAllOverview(): FullOverviewRoomModel?
 
     @Query(value = "DELETE FROM overview")
     suspend fun clearAllOverview()
