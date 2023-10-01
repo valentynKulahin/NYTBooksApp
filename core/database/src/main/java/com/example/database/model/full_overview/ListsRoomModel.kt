@@ -1,7 +1,6 @@
 package com.example.database.model.full_overview
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 
 data class ListsRoomModel(
     val display_name: String? = null,

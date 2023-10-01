@@ -2,7 +2,6 @@ package com.example.network.repo
 
 import com.example.common.ApiResult
 import com.example.common.model.ApiKeyModel
-import com.example.common.model.CategoryModel
 import com.example.network.api.BookApi
 import com.example.network.util.ApiHandler.handleApi
 import retrofit2.Call

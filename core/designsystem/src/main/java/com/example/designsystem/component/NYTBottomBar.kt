@@ -29,7 +29,7 @@ fun NYTBottomBar(
 
     NavigationBar {
         val currentRoute = navBackStackEntry?.destination?.route
-        Log.d("TAG", "NYTBottomBar (currentRoute): ${currentRoute}")
+        Log.d("TAG", "NYTBottomBar (currentRoute): $currentRoute")
         items.forEach { item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,

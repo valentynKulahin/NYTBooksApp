@@ -2,8 +2,6 @@ package com.example.database.util
 
 import androidx.room.TypeConverter
 import com.example.database.model.category.ResultRoomModel
-import com.example.database.model.full_overview.BookRoomModel
-import com.example.database.model.full_overview.BuyLinkRoomModel
 import com.example.database.model.full_overview.ListsRoomModel
 import com.google.gson.Gson
 
@@ -25,21 +23,7 @@ class Converters {
     fun jsonToLists(value: String) =
         Gson().fromJson(value, Array<ListsRoomModel>::class.java).toList()
 
-    //books
-    @TypeConverter
-    fun booksToJson(value: List<BookRoomModel>): String = Gson().toJson(value)
 
-    @TypeConverter
-    fun jsonToBooks(value: String) =
-        Gson().fromJson(value, Array<BookRoomModel>::class.java).toList()
-
-    //buy link
-    @TypeConverter
-    fun listBuyLinkToJson(value: List<BuyLinkRoomModel>): String = Gson().toJson(value)
-
-    @TypeConverter
-    fun jsonToListBuyLink(value: String) =
-        Gson().fromJson(value, Array<BuyLinkRoomModel>::class.java).toList()
 
 
 }

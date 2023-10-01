@@ -65,11 +65,7 @@ class NYTDataRepoImpl @Inject constructor(
 
             else -> {
                 val result = fullOverviewDao.getAllOverview()
-                return if (result == null) {
-                    FullOverviewRoomModel().mapToData()
-                } else {
-                    result.mapToData()
-                }
+                return result?.mapToData() ?: FullOverviewRoomModel().mapToData()
             }
         }
     }
@@ -121,8 +117,8 @@ class NYTDataRepoImpl @Inject constructor(
         return if (result == null) {
             ListsRoomModel().mapToData()
         } else {
-            result.resultsRoomModel.lists.find { item -> item.display_name == category }!!
-                .mapToData()
+            val list = result.resultsRoomModel.lists.find { item -> item.display_name == category }
+            list?.mapToData() ?: ListsRoomModel().mapToData()
         }
     }
 

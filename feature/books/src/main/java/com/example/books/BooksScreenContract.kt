@@ -1,6 +1,5 @@
 package com.example.books
 
-import com.example.domain.model.full_overview.FullOverviewDomainModel
 import com.example.domain.model.full_overview.ListsDomainModel
 
 data class BooksScreenContract(

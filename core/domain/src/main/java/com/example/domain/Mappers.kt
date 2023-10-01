@@ -1,6 +1,5 @@
 package com.example.domain
 
-import com.example.data.mapToNetwork
 import com.example.data.model.category.CategoriesDataModel
 import com.example.data.model.category.ResultDataModel
 import com.example.data.model.full_overview.BookDataModel

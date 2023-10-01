@@ -6,12 +6,10 @@ import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest.Builder
-import android.os.Build
 import androidx.core.content.getSystemService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 import javax.inject.Inject
@@ -27,7 +25,12 @@ class NetworkMonitorRepository @Inject constructor(
             channel.close()
         } else {
 
-            channel.trySend(NetworkStatus.Disconnected)
+            val connected = isInternetConnected(context = context)
+            if (connected) {
+                channel.trySend(NetworkStatus.Connected)
+            } else {
+                channel.trySend(NetworkStatus.Disconnected)
+            }
 
             val callback = object : NetworkCallback() {
                 override fun onAvailable(network: Network) {
@@ -57,4 +60,14 @@ class NetworkMonitorRepository @Inject constructor(
         }
     }.conflate()
 
+}
+
+fun isInternetConnected(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    val network = connectivityManager.activeNetwork
+    val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+
+    // Check if the device has internet connectivity
+    return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
 }
